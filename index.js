@@ -38,11 +38,27 @@ trexMesh.load('trex.glb', (gtlf) => {
 })
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const moonTexture = textureLoader.load('./textures/moon.jpeg')
-const grassColorTexture = textureLoader.load('./texture/grass/color.jpg')
-const grassAmbientOcclusionTexture = textureLoader.load('./texture/grass/ambientOcclusion.jpg')
-const grassNormalTexture = textureLoader.load('./texture/grass/normal.jpg')
-const grassRoughnessTexture = textureLoader.load('./texture/grass/roughness.jpg')
-// const te 
+
+const grassColorTexture = textureLoader.load('./textures/grass/color.jpg')
+const grassAmbientOcclusionTexture = textureLoader.load('./textures/grass/ambientOcclusion.jpg')
+const grassNormalTexture = textureLoader.load('./textures/grass/normal.jpg')
+const grassRoughnessTexture = textureLoader.load('./textures/grass/roughness.jpg')
+
+grassColorTexture.repeat.set(2, 2)
+grassAmbientOcclusionTexture.repeat.set(2, 2)
+grassNormalTexture.repeat.set(2, 2)
+grassRoughnessTexture.repeat.set(2, 2)
+
+grassColorTexture.wrapS = THREE.RepeatWrapping
+grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
+grassNormalTexture.wrapS = THREE.RepeatWrapping
+grassRoughnessTexture.wrapS = THREE.RepeatWrapping
+
+grassColorTexture.wrapT = THREE.RepeatWrapping
+grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
+grassNormalTexture.wrapT = THREE.RepeatWrapping
+grassRoughnessTexture.wrapT = THREE.RepeatWrapping
+
 // const texture2 = textureLoader.load(stoneandgrasp)
 // image.addEventListener('load', () => {
 // 	console.log("image loaded");
@@ -108,12 +124,13 @@ scene.add(directionalLight)
 // const directionalHelper = new THREE.DirectionalLightHelper(directionalLight)
 // scene.add(directionalHelper)
 
-const planeMaterial = new THREE.MeshStandardMaterial();
-planeMaterial.roughness = 0.5
-planeMaterial.metalness = 0
+const planeMaterial = new THREE.MeshStandardMaterial({ map: grassColorTexture, normalMap: grassNormalTexture, aoMap: grassAmbientOcclusionTexture, roughnessMap: grassRoughnessTexture });
+// planeMaterial.roughness = 0.5
+// planeMaterial.metalness = 0
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(8, 7, 100, 100), planeMaterial)
 plane.rotation.x = -(Math.PI / 2)
 plane.receiveShadow = true
+plane.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(plane.geometry.attributes.uv.array, 2))
 scene.add(plane)
 // const box = new THREE.Mesh(new THREE.PlaneGeometry(2, 2, 100, 100), material)
 // const box = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 10), planeMaterial)
