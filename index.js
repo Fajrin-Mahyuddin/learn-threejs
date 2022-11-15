@@ -39,25 +39,32 @@ trexMesh.load('trex.glb', (gtlf) => {
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const moonTexture = textureLoader.load('./textures/moon.jpeg')
 
-const grassColorTexture = textureLoader.load('./textures/grass/color.jpg')
-const grassAmbientOcclusionTexture = textureLoader.load('./textures/grass/ambientOcclusion.jpg')
-const grassNormalTexture = textureLoader.load('./textures/grass/normal.jpg')
-const grassRoughnessTexture = textureLoader.load('./textures/grass/roughness.jpg')
+// const grassColorTexture = textureLoader.load('./textures/grass/color.jpg')
+// const grassAmbientOcclusionTexture = textureLoader.load('./textures/grass/ambientOcclusion.jpg')
+// const grassNormalTexture = textureLoader.load('./textures/grass/normal.jpg')
+// const grassRoughnessTexture = textureLoader.load('./textures/grass/roughness.jpg')
 
-grassColorTexture.repeat.set(2, 2)
-grassAmbientOcclusionTexture.repeat.set(2, 2)
-grassNormalTexture.repeat.set(2, 2)
-grassRoughnessTexture.repeat.set(2, 2)
+const stoneColorTexture = textureLoader.load('./textures/stone/diff.jpg')
+const stoneDisplacementTexture = textureLoader.load('./textures/stone/disp.png')
+const stoneAoTexture = textureLoader.load('./textures/stone/ao.jpg')
+const stoneArmTexture = textureLoader.load('./textures/stone/arm.jpg')
+const stoneNorDxTexture = textureLoader.load('./textures/stone/nordx.jpg')
+const stoneRoughTexture = textureLoader.load('./textures/stone/rough.jpg')
 
-grassColorTexture.wrapS = THREE.RepeatWrapping
-grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
-grassNormalTexture.wrapS = THREE.RepeatWrapping
-grassRoughnessTexture.wrapS = THREE.RepeatWrapping
+// grassColorTexture.repeat.set(2, 2)
+// grassAmbientOcclusionTexture.repeat.set(2, 2)
+// grassNormalTexture.repeat.set(2, 2)
+// grassRoughnessTexture.repeat.set(2, 2)
 
-grassColorTexture.wrapT = THREE.RepeatWrapping
-grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
-grassNormalTexture.wrapT = THREE.RepeatWrapping
-grassRoughnessTexture.wrapT = THREE.RepeatWrapping
+// grassColorTexture.wrapS = THREE.RepeatWrapping
+// grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping
+// grassNormalTexture.wrapS = THREE.RepeatWrapping
+// grassRoughnessTexture.wrapS = THREE.RepeatWrapping
+
+// grassColorTexture.wrapT = THREE.RepeatWrapping
+// grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping
+// grassNormalTexture.wrapT = THREE.RepeatWrapping
+// grassRoughnessTexture.wrapT = THREE.RepeatWrapping
 
 // const texture2 = textureLoader.load(stoneandgrasp)
 // image.addEventListener('load', () => {
@@ -124,7 +131,16 @@ scene.add(directionalLight)
 // const directionalHelper = new THREE.DirectionalLightHelper(directionalLight)
 // scene.add(directionalHelper)
 
-const planeMaterial = new THREE.MeshStandardMaterial({ map: grassColorTexture, normalMap: grassNormalTexture, aoMap: grassAmbientOcclusionTexture, roughnessMap: grassRoughnessTexture });
+const planeMaterial = new THREE.MeshStandardMaterial({
+	roughness: 1,
+	map: stoneColorTexture,
+	roughnessMap: stoneRoughTexture,
+	displacementMap: stoneDisplacementTexture,
+	displacementScale: 0.7,
+	aoMap: stoneAoTexture,
+	aoMapIntensity: 1,
+	normalMap: stoneNorDxTexture
+});
 // planeMaterial.roughness = 0.5
 // planeMaterial.metalness = 0
 const plane = new THREE.Mesh(new THREE.PlaneGeometry(8, 7, 100, 100), planeMaterial)
