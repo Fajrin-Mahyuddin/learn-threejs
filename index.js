@@ -10,7 +10,7 @@ const size = {
 	height: window.innerHeight
 }
 const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(30, size.width / size.height, 1, 1000)
+const camera = new THREE.PerspectiveCamera(35, size.width / size.height, 1, 1000)
 scene.add(camera)
 // const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
 // const image = new Image();
@@ -38,6 +38,10 @@ trexMesh.load('trex.glb', (gtlf) => {
 })
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const moonTexture = textureLoader.load('./textures/moon.jpeg')
+const grassColorTexture = textureLoader.load('./texture/grass/color.jpg')
+const grassAmbientOcclusionTexture = textureLoader.load('./texture/grass/ambientOcclusion.jpg')
+const grassNormalTexture = textureLoader.load('./texture/grass/normal.jpg')
+const grassRoughnessTexture = textureLoader.load('./texture/grass/roughness.jpg')
 // const te 
 // const texture2 = textureLoader.load(stoneandgrasp)
 // image.addEventListener('load', () => {
@@ -131,6 +135,7 @@ scene.add(plane)
 // spotLight.position.set(0, 1, 4)
 // scene.add(spotLight)
 
+
 const canvas = document.querySelector('.webgl');
 const render = new THREE.WebGLRenderer({ canvas: canvas })
 render.setSize(size.width, size.height)
@@ -157,6 +162,19 @@ const clock = new THREE.Clock()
 // 	cursor.x = e.clientX / size.width - 0.5
 // 	cursor.y = e.clientY / size.height - 0.5
 // })
+
+
+
+window.addEventListener('resize', () => {
+	size.width = window.innerWidth
+	size.height = window.innerHeight
+
+	camera.aspect = size.width / size.height
+	camera.updateProjectionMatrix()
+
+	render.setSize(size.width, size.height)
+	render.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
 
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true
